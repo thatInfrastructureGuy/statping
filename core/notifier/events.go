@@ -42,15 +42,12 @@ func OnFailure(s *types.Service, f *types.Failure) {
 	// check if User wants to receive every Status Change
 	if s.UpdateNotify {
 		// send only if User hasn't been already notified about the Downtime
-		if !s.UserNotified {
-			s.UserNotified = true
-			goto sendMessages
-		} else {
+		if s.UserNotified {
 			return
 		}
+		s.UserNotified = true
 	}
 
-sendMessages:
 	for _, comm := range AllCommunications {
 		if isType(comm, new(BasicEvents)) && isEnabled(comm) && (s.Online || inLimits(comm)) {
 			notifier := comm.(Notifier).Select()
@@ -69,7 +66,11 @@ func OnSuccess(s *types.Service) {
 	}
 
 	// check if User wants to receive every Status Change
-	if s.UpdateNotify && s.UserNotified {
+	if s.UpdateNotify {
+		// send only if User hasn't been already notified about the Uptime
+		if !s.UserNotified {
+			return
+		}
 		s.UserNotified = false
 	}
 
