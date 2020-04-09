@@ -38,6 +38,10 @@ func OnFailure(s *types.Service, f *types.Failure) {
 	if !s.AllowNotifications.Bool {
 		return
 	}
+	// Send failure notification for the failures in which FailureThreshold was reached.
+	if s.CurrentFailureCount < s.FailureThreshold {
+		return
+	}
 
 	// check if User wants to receive every Status Change
 	if s.UpdateNotify {
@@ -62,6 +66,10 @@ func OnFailure(s *types.Service, f *types.Failure) {
 // OnSuccess will be triggered when a service is successful - BasicEvents interface
 func OnSuccess(s *types.Service) {
 	if !s.AllowNotifications.Bool {
+		return
+	}
+	// Send success notification against the failures in which FailureThreshold was reached.
+	if s.CurrentFailureCount < s.FailureThreshold {
 		return
 	}
 

@@ -388,7 +388,5 @@ func recordFailure(s *Service, issue string) {
 	s.UpdateNotify = CoreApp.UpdateNotify.Bool
 	s.DownText = s.DowntimeText()
 	s.CurrentFailureCount++
-	if s.CurrentFailureCount >= s.FailureThreshold {
-		notifier.OnFailure(s.Service, fail)
-	}
+	notifier.OnFailure(s.Service, fail)
 }
