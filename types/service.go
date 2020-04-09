@@ -39,6 +39,7 @@ type Service struct {
 	GroupId             int                `gorm:"default:0;column:group_id" json:"group_id"`
 	Headers             NullString         `gorm:"column:headers" json:"headers"`
 	Permalink           NullString         `gorm:"column:permalink" json:"permalink"`
+	FailureThreshold    int                `gorm:"default:0;column:failure_threshold" json:"failure_threshold"`
 	CreatedAt           time.Time          `gorm:"column:created_at" json:"created_at"`
 	UpdatedAt           time.Time          `gorm:"column:updated_at" json:"updated_at"`
 	Online              bool               `gorm:"-" json:"online"`

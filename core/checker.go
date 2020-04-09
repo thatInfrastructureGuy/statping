@@ -389,6 +389,6 @@ func recordFailure(s *Service, issue string) {
 	s.DownText = s.DowntimeText()
 	s.CurrentFailureCount++
 	if s.CurrentFailureCount >= s.FailureThreshold {
-		notifier.OnFailure(s.Service, fail.Failure)
+		notifier.OnFailure(s.Service, fail)
 	}
 }
